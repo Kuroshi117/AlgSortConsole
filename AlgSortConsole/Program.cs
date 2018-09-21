@@ -15,9 +15,9 @@ namespace AlgSortConsole
         
         static void Main(string[] args)
         {
-            ReadText(@"C:\workspace\FakeData.csv");
+            ReadText(@"C:\Users\Potato\Downloads\FakeData.csv");
             Stopwatch sw = Stopwatch.StartNew();
-            SortByDoubleUsingQuickSort(Tupperware, 0, 1000000);
+            SortByDoubleUsingCombSort(Tupperware);
             sw.Stop();
             Console.WriteLine(sw.ElapsedMilliseconds+" ms");
             for (int i = 0; i < Tupperware.Count; i++)
@@ -44,6 +44,7 @@ namespace AlgSortConsole
             }
         }
 
+        //Quicksort
         //int versions
         //Worse case scenario-if pivot = largest/smallest value, each successive list is n-1 size
         //So, for now, pivot is (high-low)/2+low
@@ -110,10 +111,68 @@ namespace AlgSortConsole
 
 
 
+        //Comb Sort
+        //int version
+        public static void SortByIDUsingCombSort(List<Tuple<int, Guid, double>> Sort)
+        {
+            int n = Sort.Count;
+            int gap = n;
+            bool swapped = true;//true to gurantee that the loop runs
+            while(gap !=1||swapped==true)
+            {
+                //next gap
+                gap = (gap * 10) / 13;
+                if(gap<1)
+                {
+                    gap = 1;
+                }
 
+                swapped = false;
+                for(int i=0; i<n-gap; i++)
+                {
+                    if(Sort[i].Item1>Sort[i+gap].Item1)
+                    {
+                        Tuple<int, Guid, double> temp = Sort[i];
+                        Sort[i] = Sort[i+gap];
+                        Sort[i+gap] = temp;
+                        swapped = true;
+                    }
+                }
 
+            }
+        }
 
+        //double version
+        public static void SortByDoubleUsingCombSort(List<Tuple<int, Guid, double>> Sort)
+        {
+            int n = Sort.Count;
+            int gap = n;
+            bool swapped = true;//true to gurantee that the loop runs
+            while (gap != 1 || swapped == true)
+            {
+                //next gap
+                gap = (gap * 10) / 13;
+                if (gap < 1)
+                {
+                    gap = 1;
+                }
 
+                swapped = false;
+                for (int i = 0; i < n - gap; i++)
+                {
+                    if (Sort[i].Item3 > Sort[i + gap].Item3)
+                    {
+                        Tuple<int, Guid, double> temp = Sort[i];
+                        Sort[i] = Sort[i + gap];
+                        Sort[i + gap] = temp;
+                        swapped = true;
+                    }
+                }
+
+            }
+        }
+
+        //geeksforgeeks.org for reference
 
 
 
