@@ -67,13 +67,9 @@ namespace AlgSortConsole
                 if (Sort[RIndex].Item1 <= pivot)
                 {
                     LIndex++;
-                    Tuple<int, Guid, double> temp1 = Sort[LIndex];
-                    Sort[LIndex] = Sort[RIndex];
-                    Sort[RIndex] = temp1;
+                    Swap(Sort[LIndex], Sort[RIndex]);
                 }
-                Tuple<int, Guid, double> temp2 = Sort[LIndex + 1];
-                Sort[LIndex + 1] = Sort[high];
-                Sort[high] = temp2;
+                Swap(Sort[LIndex + 1], Sort[(high - low) / 2 + low]);
             }
             return LIndex + 1;
         }
@@ -90,20 +86,20 @@ namespace AlgSortConsole
         }
         public static int PartitionByGUID(List<Tuple<int, Guid, double>> Sort, int low, int high)
         {
-            Guid pivot = Sort[(high - low) / 2 + low].Item2;
+            Guid pivot = Sort[high].Item2;
             int LIndex = (low - 1);
             for (int RIndex = low; RIndex < (high - 1); RIndex++)
             {
                 if (Sort[RIndex].Item2.CompareTo(pivot) <= 0)
                 {
                     LIndex++;
-                    Tuple<int, Guid, double> temp1 = Sort[LIndex];
+                    Tuple<int, Guid, double> temp = Sort[LIndex];
                     Sort[LIndex] = Sort[RIndex];
-                    Sort[RIndex] = temp1;
+                    Sort[RIndex] = temp;
                 }
-                Tuple<int, Guid, double> temp2 = Sort[LIndex + 1];
+                Tuple<int, Guid, double> temp1 = Sort[LIndex + 1];
                 Sort[LIndex + 1] = Sort[high];
-                Sort[high] = temp2;
+                Sort[high] = temp1;
             }
             return LIndex + 1;
         }
@@ -120,24 +116,30 @@ namespace AlgSortConsole
         }
         public static int PartitionByDouble(List<Tuple<int, Guid, double>> Sort, int low, int high)
         {
-            double pivot = Sort[(high - low) / 2 + low].Item3;
+            double pivot = Sort[high].Item3;
             int LIndex = (low - 1);
             for (int RIndex = low; RIndex < (high - 1); RIndex++)
             {
                 if (Sort[RIndex].Item3 <= pivot)
                 {
                     LIndex++;
-                    Tuple<int, Guid, double> temp1 = Sort[LIndex];
+                    Tuple<int, Guid, double> temp = Sort[LIndex];
                     Sort[LIndex] = Sort[RIndex];
-                    Sort[RIndex] = temp1;
+                    Sort[RIndex] = temp;
                 }
-                Tuple<int, Guid, double> temp2 = Sort[LIndex + 1];
-                Sort[LIndex + 1] = Sort[high];
-                Sort[high] = temp2;
+                Tuple<int, Guid, double> temp1 = Sort[LIndex+1];
+                Sort[LIndex+1] = Sort[high];
+                Sort[high] = temp1;
             }
             return LIndex + 1;
         }
 
+        public static void Swap(Tuple<int, Guid, double> A,Tuple<int, Guid, double> B)
+        {
+            var temp = A;
+            A = B;
+            B = temp;
+        }
 
 
         //Comb Sort
